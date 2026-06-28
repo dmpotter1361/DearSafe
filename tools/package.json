@@ -1,0 +1,13 @@
+{
+  "name": "dearsafe-tools",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Dev tooling: capture UI screenshots for self-verification + README.",
+  "scripts": {
+    "shots": "node shots.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  }
+}

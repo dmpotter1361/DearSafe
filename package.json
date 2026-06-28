@@ -1,0 +1,11 @@
+{
+  "name": "dearsafe",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A private, encrypted, pastel journaling app for your life and your projects.",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dmpotter1361/DearSafe.git"
+  }
+}

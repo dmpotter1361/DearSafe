@@ -1,0 +1,102 @@
+/* App shell: top nav, content area, footer */
+
+.frame {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.topnav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-links {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+  margin-right: 8px;
+}
+.nav-links a {
+  text-decoration: none;
+  color: var(--ink-soft);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
+}
+.nav-links a:hover {
+  color: var(--ink);
+  background: var(--surface-2);
+}
+.nav-links a.on {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--lavender) 40%, var(--surface));
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lock-btn {
+  border: 0;
+  cursor: pointer;
+  font-size: 15px;
+  background: var(--surface-2);
+  border-radius: var(--r-pill);
+  padding: 7px 10px;
+  box-shadow: var(--shadow-sm);
+}
+
+.content {
+  flex: 1;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 24px 18px 60px;
+}
+
+.appfoot {
+  text-align: center;
+  font-size: 12px;
+  padding: 18px;
+  opacity: 0.7;
+}
+
+/* dev-mode banner (shown when DEARSAFE_DEV is on) */
+.devbar {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  color: #8a5a00;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--butter),
+    var(--butter) 12px,
+    #ffe9a8 12px,
+    #ffe9a8 24px
+  );
+  padding: 6px;
+}
+
+@media (max-width: 520px) {
+  .topnav {
+    gap: 10px;
+    padding: 12px 14px;
+  }
+  .nav-links a {
+    padding: 8px 10px;
+  }
+}

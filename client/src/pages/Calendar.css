@@ -1,0 +1,128 @@
+.cal-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cal-head {
+  padding: 18px 20px;
+  background: var(--rainbow);
+}
+.cal-head h2 {
+  color: #5b5566;
+}
+.cal-head .muted {
+  color: #6f6580;
+  margin: 4px 0 0;
+}
+
+.seg {
+  display: flex;
+  gap: 6px;
+  margin-top: 14px;
+}
+.seg button {
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #6f6580;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: var(--r-pill);
+  padding: 7px 14px;
+}
+.seg button.on {
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.cal-grid {
+  padding: 16px;
+}
+.dow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-bottom: 8px;
+}
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+.day {
+  aspect-ratio: 1;
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--ink-soft);
+  box-shadow: var(--shadow-sm);
+}
+.day.today {
+  outline: 2px solid #e89bb4;
+  color: var(--ink);
+  font-weight: 700;
+}
+.day .dots {
+  display: flex;
+  gap: 3px;
+  margin-top: 4px;
+  min-height: 6px;
+}
+.day .dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: block;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.onthis {
+  margin: 0 0 2px;
+  font-weight: 600;
+}
+.tl-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  align-items: center;
+}
+.tl-thumb {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--r-sm);
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+.tl-thumb.beach { background: linear-gradient(120deg, #9ed3ef, #f0dcb6); }
+.tl-thumb.rain { background: linear-gradient(120deg, #cdd6e8, #e7ecf4); }
+.tl-thumb.plain { background: linear-gradient(120deg, var(--blush), var(--peach)); }
+.tl-body h4 {
+  margin: 0 0 2px;
+  font-size: 14.5px;
+}
+.tl-body .muted {
+  margin: 0;
+  font-size: 12px;
+}
+.tl-tags {
+  margin-top: 5px;
+  display: flex;
+  gap: 5px;
+}

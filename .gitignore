@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+
+# Runtime data (SQLite DB + encrypted media + keyring) — NEVER commit
+server/data/
+
+# Local-only copy of the built client (the Docker image builds this itself)
+server/public/
+
+# Local scratch / personal notes
+/concept/*.local.*

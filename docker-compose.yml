@@ -1,0 +1,45 @@
+services:
+  app:
+    build: .
+    # Bind to the host port (default 3600). On a shared server you typically map this to
+    # localhost only and let a front reverse-proxy (Caddy) terminate HTTPS — see README.
+    ports:
+      - "${PORT:-3600}:3600"
+    environment:
+      - PORT=3600
+      - NODE_ENV=production
+      - DATA_DIR=/data
+      - JWT_SECRET=${JWT_SECRET:?set JWT_SECRET in your .env file}
+      - COOKIE_SECURE=${COOKIE_SECURE:-false}
+      - APP_BASE_URL=${APP_BASE_URL:-http://localhost:3600}
+      - DEARSAFE_DEV=${DEARSAFE_DEV:-false}
+      # Optional Google Drive (video offload). Leave blank to keep all media local.
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
+    volumes:
+      - dearsafe-data:/data
+    restart: unless-stopped
+
+  # Optional standalone HTTPS front door (only if THIS host owns ports 80/443).
+  # On a server that already runs Caddy for other apps, add a site block to that Caddy
+  # instead of enabling this. Enable with: docker compose --profile https up -d
+  caddy:
+    image: caddy:2
+    profiles: ["https"]
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - DOMAIN=${DOMAIN:?set DOMAIN in your .env file to use the https profile}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - app
+    restart: unless-stopped
+
+volumes:
+  dearsafe-data:
+  caddy-data:
+  caddy-config:

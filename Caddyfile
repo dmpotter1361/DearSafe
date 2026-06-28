@@ -1,0 +1,6 @@
+# Caddy reverse proxy with automatic HTTPS (Let's Encrypt).
+# Used only by the optional `https` compose profile when THIS host owns ports 80/443.
+{$DOMAIN} {
+	encode zstd gzip
+	reverse_proxy app:3600
+}

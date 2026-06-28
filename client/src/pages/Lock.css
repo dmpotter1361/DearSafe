@@ -1,0 +1,91 @@
+.lock-screen {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px;
+  background: var(--rainbow);
+  position: relative;
+}
+
+.lock-card {
+  width: 100%;
+  max-width: 360px;
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  backdrop-filter: blur(8px);
+  border-radius: var(--r-lg);
+  padding: 34px 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid color-mix(in srgb, var(--surface) 50%, transparent);
+}
+
+.lock-heart {
+  font-size: 56px;
+  line-height: 1;
+}
+.lock-title {
+  font-size: 28px;
+  margin: 14px 0 2px;
+}
+.lock-hello {
+  font-size: 26px;
+  color: #a98bbf;
+  margin: 0 0 22px;
+}
+
+.lock-links {
+  margin-top: 18px;
+  font-size: 12.5px;
+  line-height: 1.9;
+  display: flex;
+  flex-direction: column;
+}
+
+.lock-version {
+  position: absolute;
+  bottom: 16px;
+  font-size: 12px;
+}
+
+.lock-error {
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #b4456b;
+  background: color-mix(in srgb, var(--blush) 45%, var(--surface));
+  border-radius: var(--r-md);
+  padding: 9px 12px;
+}
+
+.recovery-key {
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: var(--ink);
+  background: var(--surface-2);
+  border: 1px dashed var(--lavender);
+  border-radius: var(--r-md);
+  padding: 14px;
+  margin: 16px 0 10px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.recovery-actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.saved-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: left;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+.saved-check input { width: 18px; height: 18px; accent-color: #b79be0; }

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DearSafe — Idea Mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --blush:#FBC8D4; --lavender:#D8C7F0; --mint:#C2E9D4; --peach:#FFD9C0;
+    --babyblue:#C5DEF2; --butter:#FBEFC0;
+    --cream:#FFF8F4; --white:#FFFFFF; --ink:#5B5566;
+    --dark-bg:#2A2433; --dark-surface:#3A3346; --dark-ink:#EDE7F2;
+    --rainbow:linear-gradient(120deg,#FBC8D4,#FFD9C0,#FBEFC0,#C2E9D4,#C5DEF2,#D8C7F0);
+    --shadow:0 10px 30px rgba(91,85,102,.14);
+    --shadow-sm:0 4px 14px rgba(91,85,102,.12);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:'Quicksand',system-ui,sans-serif; color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #FDEFF4 0%, transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, #EFF5FC 0%, transparent 55%),
+      var(--cream);
+    padding:40px 20px 80px;
+  }
+  .page-head{max-width:1100px; margin:0 auto 36px; text-align:center;}
+  .logo{font-size:42px; font-weight:700; letter-spacing:.5px;
+    background:var(--rainbow); -webkit-background-clip:text; background-clip:text; color:transparent;
+    display:inline-flex; align-items:center; gap:12px;}
+  .logo .lockheart{font-size:34px; -webkit-text-fill-color:initial;}
+  .tagline{font-size:18px; color:var(--ink); opacity:.8; margin-top:6px;}
+  .subnote{font-size:14px; color:var(--ink); opacity:.55; margin-top:10px; font-style:italic;}
+
+  .grid{max-width:1180px; margin:0 auto; display:grid; gap:34px;
+    grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); align-items:start;}
+  .screen-wrap{display:flex; flex-direction:column; align-items:center;}
+  .label{font-weight:600; font-size:15px; margin-bottom:14px; color:var(--ink);
+    background:var(--white); padding:7px 16px; border-radius:999px; box-shadow:var(--shadow-sm);}
+  .label small{opacity:.6; font-weight:500;}
+
+  /* phone frame */
+  .phone{width:330px; height:660px; background:var(--white); border-radius:42px;
+    box-shadow:var(--shadow); padding:14px; position:relative; overflow:hidden;
+    border:1px solid #F1E7EE;}
+  .phone .notch{position:absolute; top:14px; left:50%; transform:translateX(-50%);
+    width:120px; height:22px; background:#efe7ee; border-radius:0 0 14px 14px; z-index:5;}
+  .screen{width:100%; height:100%; border-radius:30px; overflow:hidden; position:relative;
+    display:flex; flex-direction:column;}
+
+  /* ---------- LOCK SCREEN ---------- */
+  .lock{background:var(--rainbow); align-items:center; justify-content:center; text-align:center; padding:30px;}
+  .lock-card{background:rgba(255,255,255,.82); backdrop-filter:blur(6px);
+    border-radius:28px; padding:30px 26px; width:100%; box-shadow:var(--shadow);}
+  .lock .bigheart{font-size:54px; line-height:1;}
+  .lock h2{font-size:26px; margin:14px 0 4px; color:var(--ink);}
+  .lock .hello{font-family:'Caveat',cursive; font-size:24px; color:#a98bbf; margin-bottom:20px;}
+  .field{display:flex; align-items:center; gap:8px; background:var(--white); border-radius:16px;
+    padding:13px 16px; box-shadow:inset 0 0 0 2px #efe3ee; margin-bottom:8px;}
+  .field input{border:0; outline:0; font-family:inherit; font-size:16px; width:100%; background:transparent; color:var(--ink);}
+  .dots{letter-spacing:4px; color:#b9adc4; font-size:18px;}
+  .btn{border:0; border-radius:16px; padding:14px; width:100%; font-family:inherit;
+    font-weight:600; font-size:16px; color:#fff; cursor:pointer; margin-top:10px;
+    background:linear-gradient(120deg,#e89bb4,#b79be0); box-shadow:0 8px 18px rgba(183,155,224,.4);}
+  .lock .links{margin-top:16px; font-size:13px; color:var(--ink); opacity:.7; line-height:1.9;}
+
+  /* ---------- EDITOR (BEACH THEME) ---------- */
+  .beach{background:
+      linear-gradient(180deg,#bfe3f5 0%, #d8eef7 38%, #f6ead0 64%, #f3e1c4 100%);}
+  .topbar{display:flex; align-items:center; justify-content:space-between; padding:14px 16px 8px;
+    background:rgba(255,255,255,.45); backdrop-filter:blur(4px);}
+  .topbar .date{font-weight:600; font-size:14px; color:#5b5566;}
+  .topbar .date small{display:block; font-weight:500; opacity:.65; font-size:11px;}
+  .topbar .chips{display:flex; gap:6px;}
+  .pill{background:rgba(255,255,255,.8); border-radius:999px; font-size:11px; padding:5px 9px; font-weight:600; color:#7a6f86;}
+  .toolbar{display:flex; gap:4px; flex-wrap:wrap; padding:8px 12px; background:rgba(255,255,255,.65);
+    border-bottom:1px solid rgba(255,255,255,.7);}
+  .tool{width:28px; height:28px; border-radius:9px; background:#fff; display:flex; align-items:center;
+    justify-content:center; font-size:13px; font-weight:700; color:#7a6f86; box-shadow:var(--shadow-sm);}
+  .tool.b{font-weight:800;} .tool.i{font-style:italic;} .tool.u{text-decoration:underline;}
+  .tool.clr{background:linear-gradient(120deg,#FBC8D4,#C5DEF2);}
+  .entry{flex:1; overflow:auto; padding:16px 18px;}
+  .entry h1{font-family:'Caveat',cursive; font-size:34px; margin:0 0 4px; color:#4a6b86;}
+  .entry p{font-size:14px; line-height:1.65; margin:10px 0; color:#534d5e;}
+  .entry .photo{height:120px; border-radius:16px; margin:12px 0 6px; box-shadow:var(--shadow-sm);
+    background:linear-gradient(180deg,#9ed3ef,#cfe9d6 70%,#f0dcb6); position:relative; overflow:hidden;}
+  .entry .photo .sun{position:absolute; top:14px; right:20px; width:34px; height:34px; border-radius:50%;
+    background:#ffe9a8; box-shadow:0 0 24px #ffe39a;}
+  .entry .photo .sea{position:absolute; bottom:34px; left:0; right:0; height:30px; background:#7cc2e6; opacity:.6;}
+  .entry .photo .sand{position:absolute; bottom:0; left:0; right:0; height:34px; background:#e9d6ad;}
+  .cap{font-size:12px; font-style:italic; color:#7a6f86; opacity:.85; margin:0 0 8px;}
+  .moodrow{display:flex; gap:6px; align-items:center; margin-top:6px;}
+  .moodrow .m{font-size:20px;} .moodrow .m.sel{filter:none; transform:scale(1.25);} .moodrow .m{filter:grayscale(.5) opacity(.6);}
+  .savebar{padding:9px 16px; font-size:12px; color:#6f6580; background:rgba(255,255,255,.55);
+    display:flex; align-items:center; gap:6px;}
+  .savebar .dot{width:8px;height:8px;border-radius:50%;background:#8fd6a8;}
+
+  /* ---------- CALENDAR ---------- */
+  .calscreen{background:var(--cream);}
+  .calhead{padding:18px 18px 8px; background:var(--rainbow);}
+  .calhead h2{margin:0; font-size:22px; color:#5b5566;}
+  .calhead .sub{font-size:13px; color:#6f6580; opacity:.85;}
+  .seg{display:flex; gap:6px; margin-top:12px;}
+  .seg span{font-size:12px; font-weight:600; padding:6px 12px; border-radius:999px; background:rgba(255,255,255,.6); color:#6f6580;}
+  .seg span.on{background:#fff; box-shadow:var(--shadow-sm);}
+  .cal{padding:14px 16px;}
+  .dow{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; font-size:10px; color:#a99fb4; text-align:center; margin-bottom:6px; font-weight:600;}
+  .days{display:grid; grid-template-columns:repeat(7,1fr); gap:6px;}
+  .day{aspect-ratio:1; border-radius:12px; background:#fff; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; font-size:12px; color:#7a6f86; box-shadow:var(--shadow-sm); position:relative;}
+  .day.dim{opacity:.4;}
+  .day .dots2{display:flex; gap:2px; margin-top:3px;}
+  .day .dots2 i{width:5px;height:5px;border-radius:50%; display:block;}
+  .day.today{outline:2px solid #e89bb4;}
+  .timeline{padding:4px 16px 16px;}
+  .tl-item{display:flex; gap:10px; padding:10px; background:#fff; border-radius:14px; box-shadow:var(--shadow-sm); margin-bottom:8px;}
+  .tl-item .thumb{width:42px; height:42px; border-radius:10px; flex:none;
+    background:linear-gradient(120deg,#C2E9D4,#C5DEF2);}
+  .tl-item .thumb.b{background:linear-gradient(120deg,#9ed3ef,#f0dcb6);}
+  .tl-item .thumb.p{background:linear-gradient(120deg,#FBC8D4,#FFD9C0);}
+  .tl-item h4{margin:0 0 2px; font-size:13px; color:#534d5e;}
+  .tl-item p{margin:0; font-size:11px; color:#8a8096;}
+  .tl-item .tags{margin-top:4px; display:flex; gap:4px;}
+  .tl-item .tags span{font-size:10px; background:#f3ecf7; color:#9a7fb5; border-radius:999px; padding:2px 7px; font-weight:600;}
+
+  /* ---------- DARK PEEK ---------- */
+  .darkscreen{background:var(--dark-bg); color:var(--dark-ink);}
+  .darkscreen .topbar{background:rgba(255,255,255,.05);}
+  .darkscreen .topbar .date{color:var(--dark-ink);}
+  .darkscreen .toolbar{background:rgba(255,255,255,.04); border-color:rgba(255,255,255,.06);}
+  .darkscreen .tool{background:var(--dark-surface); color:#cdbfe0; box-shadow:none;}
+  .darkscreen .entry h1{color:#d9b8e8;}
+  .darkscreen .entry p{color:#cabfd6;}
+  .darkscreen .entry .nightphoto{height:120px; border-radius:16px; margin:12px 0;
+    background:linear-gradient(180deg,#3a3357,#2a2440); position:relative; overflow:hidden;}
+  .darkscreen .entry .nightphoto .moon{position:absolute; top:16px; right:24px; width:26px;height:26px;border-radius:50%; background:#efe7c5; box-shadow:0 0 18px #efe7c580;}
+  .darkscreen .entry .nightphoto .star{position:absolute; width:3px;height:3px;border-radius:50%;background:#fff;opacity:.8;}
+  .darkscreen .savebar{background:rgba(255,255,255,.04); color:#b7acc9;}
+  .darkscreen .moodrow .m{filter:grayscale(.3) opacity(.7);}
+
+  .footer{max-width:760px; margin:54px auto 0; text-align:center; font-size:14px; color:var(--ink); opacity:.7; line-height:1.7;}
+  .footer b{color:#a07cc0;}
+</style>
+</head>
+<body>
+  <div class="page-head">
+    <div class="logo"><span class="lockheart">🔒💗</span> DearSafe</div>
+    <div class="tagline">A private, pretty place for your life &amp; your projects</div>
+    <div class="subnote">Early idea mockups — to look &amp; feel, not the finished app. Light theme + a peek of dark mode.</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- LOCK SCREEN -->
+    <div class="screen-wrap">
+      <div class="label">1 · Lock screen <small>— your journal, sealed</small></div>
+      <div class="phone"><div class="notch"></div>
+        <div class="screen lock">
+          <div class="lock-card">
+            <div class="bigheart">🔒💗</div>
+            <h2>DearSafe</h2>
+            <div class="hello">Welcome back 🌸</div>
+            <div class="field"><span class="dots">••••••••••</span></div>
+            <button class="btn">Unlock</button>
+            <div class="links">Lost your password? Use your recovery card.<br/>Your entries are encrypted &amp; private.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDITOR (BEACH) -->
+    <div class="screen-wrap">
+      <div class="label">2 · Today / Editor <small>— beach theme</small></div>
+      <div class="phone"><div class="notch"></div>
+        <div class="screen beach">
+          <div class="topbar">
+            <div class="date">Saturday<small>June 28, 2026 · 🏖️ Beach day</small></div>
+            <div class="chips"><span class="pill">🌅 Theme</span></div>
+          </div>
+          <div class="toolbar">
+            <div class="tool b">B</div><div class="tool i">I</div><div class="tool u">U</div>
+            <div class="tool">A⁺</div><div class="tool clr">&nbsp;</div><div class="tool">≣</div>
+            <div class="tool">•</div><div class="tool">🔗</div><div class="tool">😊</div><div class="tool">📷</div>
+          </div>
+          <div class="entry">
+            <h1>A day at the shore</h1>
+            <p>Woke up early and drove out to the coast 🐚. The water was <b>freezing</b> but
+               so worth it — we found the prettiest little tide pools.</p>
+            <div class="photo"><div class="sun"></div><div class="sea"></div><div class="sand"></div></div>
+            <p class="cap">📍 Cannon Beach — low tide around 9am</p>
+            <p>Built a lopsided sandcastle, ate too many snacks, came home sandy and happy 💛.</p>
+            <div class="moodrow"><span style="font-size:12px;color:#7a6f86;font-weight:600;">Mood:</span>
+              <span class="m">😐</span><span class="m">🙂</span><span class="m sel">😄</span><span class="m">🥰</span></div>
+          </div>
+          <div class="savebar"><span class="dot"></span> Saved just now · #beach #family</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div class="screen-wrap">
+      <div class="label">3 · Calendar &amp; timeline <small>— wander back</small></div>
+      <div class="phone"><div class="notch"></div>
+        <div class="screen calscreen">
+          <div class="calhead">
+            <h2>June 2026</h2>
+            <div class="sub">23 entries this month · 6-day streak 🔥</div>
+            <div class="seg"><span class="on">Calendar</span><span>Timeline</span><span>On this day</span></div>
+          </div>
+          <div class="cal">
+            <div class="dow"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+            <div class="days">
+              <div class="day dim">31</div>
+              <div class="day">1<div class="dots2"><i style="background:#C2E9D4"></i></div></div>
+              <div class="day">2</div>
+              <div class="day">3<div class="dots2"><i style="background:#FBC8D4"></i><i style="background:#C5DEF2"></i></div></div>
+              <div class="day">4</div>
+              <div class="day">5<div class="dots2"><i style="background:#D8C7F0"></i></div></div>
+              <div class="day">6</div>
+              <div class="day">7<div class="dots2"><i style="background:#FFD9C0"></i></div></div>
+              <div class="day">8</div><div class="day">9</div>
+              <div class="day">10<div class="dots2"><i style="background:#C2E9D4"></i><i style="background:#FBEFC0"></i></div></div>
+              <div class="day">11</div><div class="day">12</div>
+              <div class="day">13<div class="dots2"><i style="background:#C5DEF2"></i></div></div>
+              <div class="day">14</div>
+              <div class="day">22</div>
+              <div class="day">23<div class="dots2"><i style="background:#FBC8D4"></i></div></div>
+              <div class="day">24<div class="dots2"><i style="background:#C2E9D4"></i></div></div>
+              <div class="day">25<div class="dots2"><i style="background:#D8C7F0"></i><i style="background:#FFD9C0"></i></div></div>
+              <div class="day">26<div class="dots2"><i style="background:#C5DEF2"></i></div></div>
+              <div class="day">27<div class="dots2"><i style="background:#FBEFC0"></i></div></div>
+              <div class="day today">28<div class="dots2"><i style="background:#9ed3ef"></i></div></div>
+            </div>
+          </div>
+          <div class="timeline">
+            <div class="tl-item"><div class="thumb b"></div><div>
+              <h4>A day at the shore</h4><p>Today · 2 photos</p>
+              <div class="tags"><span>#beach</span><span>#family</span></div></div></div>
+            <div class="tl-item"><div class="thumb p"></div><div>
+              <h4>Soap batch #14 — lavender</h4><p>Jun 27 · recipe</p>
+              <div class="tags"><span>#soap</span><span>#projects</span></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DARK PEEK -->
+    <div class="screen-wrap">
+      <div class="label">4 · Dark mode <small>— cozy night writing</small></div>
+      <div class="phone"><div class="notch"></div>
+        <div class="screen darkscreen">
+          <div class="topbar">
+            <div class="date" style="color:#EDE7F2">Saturday<small style="color:#b7acc9">June 28, 2026 · 🌙 Night</small></div>
+            <div class="chips"><span class="pill" style="background:#3A3346;color:#cdbfe0">🌙 Theme</span></div>
+          </div>
+          <div class="toolbar">
+            <div class="tool b">B</div><div class="tool i">I</div><div class="tool u">U</div>
+            <div class="tool">A⁺</div><div class="tool">≣</div><div class="tool">😊</div><div class="tool">📷</div>
+          </div>
+          <div class="entry">
+            <h1>Late night thoughts</h1>
+            <p>Couldn't sleep, so I made some tea and wrote for a while. The house is quiet and
+               the moon is huge tonight 🌕.</p>
+            <div class="nightphoto"><div class="moon"></div>
+              <span class="star" style="top:30px;left:40px"></span>
+              <span class="star" style="top:50px;left:90px"></span>
+              <span class="star" style="top:24px;left:150px"></span>
+              <span class="star" style="top:70px;left:200px"></span></div>
+            <div class="moodrow"><span style="font-size:12px;color:#b7acc9;font-weight:600;">Mood:</span>
+              <span class="m">😐</span><span class="m sel" style="filter:none;transform:scale(1.25)">😌</span><span class="m">🙂</span></div>
+          </div>
+          <div class="savebar"><span class="dot"></span> Saved just now · #journal</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    💗 These are quick <b>idea sketches</b> to react to — colors, layout, and details will all
+    be refined.<br/>Tell us what feels lovely, what feels off, and what you'd want to journal with.
+  </div>
+</body>
+</html>

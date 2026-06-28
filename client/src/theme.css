@@ -1,0 +1,197 @@
+/* ===========================================================================
+   DearSafe — design tokens & base styles
+   Pastel rainbow identity, soft & cute, light + dark.
+   (Fonts loaded via CDN in dev; self-host before production per the plan.)
+   =========================================================================== */
+
+:root {
+  /* pastel accents (the rainbow identity) */
+  --blush: #fbc8d4;
+  --lavender: #d8c7f0;
+  --mint: #c2e9d4;
+  --peach: #ffd9c0;
+  --babyblue: #c5def2;
+  --butter: #fbefc0;
+  --rainbow: linear-gradient(120deg, #fbc8d4, #ffd9c0, #fbefc0, #c2e9d4, #c5def2, #d8c7f0);
+
+  /* primary action gradient */
+  --grad-primary: linear-gradient(120deg, #e89bb4, #b79be0);
+
+  /* radii + motion */
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 28px;
+  --r-pill: 999px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---- light (default) ---- */
+:root,
+[data-theme='light'] {
+  --bg: #fff8f4;
+  --bg-tint-a: #fdeff4;
+  --bg-tint-b: #eff5fc;
+  --surface: #ffffff;
+  --surface-2: #fdf6fb;
+  --ink: #5b5566;
+  --ink-soft: #8a8096;
+  --line: #f1e7ee;
+  --shadow: 0 10px 30px rgba(91, 85, 102, 0.14);
+  --shadow-sm: 0 4px 14px rgba(91, 85, 102, 0.12);
+}
+
+/* ---- dark (cozy pastel night) ---- */
+[data-theme='dark'] {
+  --bg: #2a2433;
+  --bg-tint-a: #322a40;
+  --bg-tint-b: #28303f;
+  --surface: #3a3346;
+  --surface-2: #332c41;
+  --ink: #ede7f2;
+  --ink-soft: #b7acc9;
+  --line: rgba(255, 255, 255, 0.08);
+  --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Quicksand', system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 600px at 8% -10%, var(--bg-tint-a) 0%, transparent 60%),
+    radial-gradient(1000px 500px at 100% 0%, var(--bg-tint-b) 0%, transparent 55%),
+    var(--bg);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+h1, h2, h3 {
+  color: var(--ink);
+  margin: 0;
+}
+
+a {
+  color: #a07cc0;
+}
+
+.handwritten {
+  font-family: 'Caveat', cursive;
+}
+
+/* ---------- reusable bits ---------- */
+.card {
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+}
+
+.btn {
+  border: 0;
+  border-radius: var(--r-md);
+  padding: 13px 18px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  color: #fff;
+  cursor: pointer;
+  background: var(--grad-primary);
+  box-shadow: 0 8px 18px rgba(183, 155, 224, 0.4);
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 22px rgba(183, 155, 224, 0.5);
+}
+.btn:active {
+  transform: translateY(0);
+}
+.btn.ghost {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+
+.pill {
+  background: var(--surface);
+  color: var(--ink-soft);
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: #9a7fb5;
+  background: color-mix(in srgb, var(--lavender) 35%, var(--surface));
+  border-radius: var(--r-pill);
+  padding: 3px 9px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border-radius: var(--r-md);
+  padding: 13px 16px;
+  box-shadow: inset 0 0 0 2px var(--line);
+}
+.field input {
+  border: 0;
+  outline: 0;
+  font-family: inherit;
+  font-size: 16px;
+  width: 100%;
+  background: transparent;
+  color: var(--ink);
+}
+
+/* logo wordmark */
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  background: var(--rainbow);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.brand .mark {
+  -webkit-text-fill-color: initial;
+}
+
+.muted {
+  color: var(--ink-soft);
+}
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
