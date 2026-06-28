@@ -59,6 +59,9 @@ Put it behind HTTPS with the built-in **Caddy** profile (auto Let's Encrypt):
 docker compose --profile https up -d --build
 ```
 
+📖 **Full guides:** [Setup (step-by-step, incl. getting each key)](docs/SETUP.md) ·
+[Deploy (standalone or shared-proxy)](docs/DEPLOY.md) · [Security model](docs/security.md)
+
 <details>
 <summary><b>Local development</b></summary>
 
