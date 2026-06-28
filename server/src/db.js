@@ -41,6 +41,16 @@ db.exec(`
   );
   CREATE INDEX IF NOT EXISTS idx_entries_date ON entries(entry_date);
   CREATE INDEX IF NOT EXISTS idx_entries_live ON entries(deleted_at);
+
+  -- Media: encrypted blobs on disk (DATA_DIR/media/<id>.bin). Only metadata in the DB.
+  CREATE TABLE IF NOT EXISTS media (
+    id          TEXT PRIMARY KEY,
+    entry_id    TEXT,
+    kind        TEXT DEFAULT 'photo',
+    mime        TEXT NOT NULL,
+    size        INTEGER NOT NULL,
+    created_at  TEXT NOT NULL
+  );
 `);
 
 export default db;

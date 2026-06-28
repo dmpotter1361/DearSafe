@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { api } from '../api';
+import RichEditor from '../components/RichEditor';
+import { compressImage } from '../lib/image';
 import './Today.css';
 
-const TOOLS = ['B', 'I', 'U', 'A⁺', '🎨', '≣', '•', '🔗', '😊', '📷'];
 const MOODS = ['😐', '🙂', '😄', '🥰', '😌'];
 const THEMES = [
   { id: 'beach', label: '🏖️ Beach' },
@@ -124,14 +125,6 @@ export default function Today() {
           </div>
         </div>
 
-        <div className="toolbar" role="toolbar" aria-label="Formatting (coming soon)">
-          {TOOLS.map((t, i) => (
-            <button key={i} className={`tool t${i}`} tabIndex={-1} title="Rich formatting — coming soon">
-              {t}
-            </button>
-          ))}
-        </div>
-
         <article className="entry-card card">
           <input
             className="entry-title"
@@ -139,11 +132,16 @@ export default function Today() {
             placeholder="Title your day…"
             onChange={(e) => patch({ title: e.target.value })}
           />
-          <textarea
-            className="entry-body"
+          <RichEditor
+            key={current.id}
             value={current.body || ''}
             placeholder="Dear diary…  ✨"
-            onChange={(e) => patch({ body: e.target.value })}
+            onChange={(html) => patch({ body: html })}
+            uploadImage={async (file) => {
+              const small = await compressImage(file);
+              const { url } = await api.uploadMedia(small, current.id);
+              return url;
+            }}
           />
 
           <div className="entry-meta">

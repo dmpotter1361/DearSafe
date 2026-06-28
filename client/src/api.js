@@ -36,6 +36,19 @@ export const api = {
   lock: () => req('/auth/lock', 'POST'),
   logout: () => req('/auth/logout', 'POST'),
 
+  uploadMedia: async (file, entryId) => {
+    const fd = new FormData();
+    fd.append('file', file);
+    if (entryId) fd.append('entryId', entryId);
+    const res = await fetch('/api/media', { method: 'POST', body: fd, credentials: 'same-origin' });
+    if (!res.ok) {
+      let m = 'upload failed';
+      try { m = (await res.json()).error || m; } catch { /* */ }
+      throw new Error(m);
+    }
+    return res.json();
+  },
+
   listEntries: () => req('/entries'),
   getEntry: (id) => req(`/entries/${id}`),
   createEntry: (data) => req('/entries', 'POST', data),

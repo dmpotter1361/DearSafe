@@ -1,0 +1,107 @@
+.rich {
+  display: flex;
+  flex-direction: column;
+}
+
+/* toolbar buttons (reuses .tool base from Today.css; adds active + variants) */
+.rich .toolbar {
+  position: sticky;
+  top: 60px;
+  z-index: 5;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  backdrop-filter: blur(6px);
+  border-radius: var(--r-md);
+  margin-bottom: 6px;
+}
+.tool.on {
+  background: color-mix(in srgb, var(--lavender) 55%, var(--surface));
+  color: var(--ink);
+  outline: 2px solid var(--lavender);
+}
+.tool s { text-decoration: line-through; }
+
+.tool.color {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.tool.color input[type='color'] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* emoji picker */
+.emoji-wrap { position: relative; }
+.emoji-pop {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  z-index: 30;
+  width: 252px;
+  max-height: 200px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2px;
+  padding: 8px;
+  background: var(--surface);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+}
+.emoji-item {
+  border: 0;
+  background: transparent;
+  font-size: 20px;
+  padding: 4px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.emoji-item:hover { background: var(--surface-2); }
+
+/* editor content */
+.rich-content .ProseMirror {
+  min-height: 200px;
+  outline: 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #534d5e;
+}
+.theme-night .rich-content .ProseMirror { color: #ece4f5; }
+[data-theme='dark'] .rich-content .ProseMirror { color: var(--ink); }
+
+.rich-content .ProseMirror p { margin: 10px 0; }
+.rich-content .ProseMirror h2 {
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  color: #4a6b86;
+  margin: 14px 0 4px;
+}
+.theme-night .rich-content .ProseMirror h2 { color: #d9b8e8; }
+.rich-content .ProseMirror ul,
+.rich-content .ProseMirror ol { padding-left: 22px; margin: 8px 0; }
+.rich-content .ProseMirror a { color: #a07cc0; text-decoration: underline; }
+.rich-content .ProseMirror img {
+  max-width: 100%;
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
+  margin: 10px 0;
+}
+.rich-content .ProseMirror mark {
+  border-radius: 4px;
+  padding: 0 2px;
+}
+
+/* placeholder */
+.rich-content .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--ink-soft);
+  opacity: 0.7;
+  pointer-events: none;
+  height: 0;
+}

@@ -27,6 +27,22 @@ export function decrypt(key, packed) {
 export const encField = (dek, value) => (value == null ? null : encrypt(dek, JSON.stringify(value)));
 export const decField = (dek, packed) => (packed == null ? null : JSON.parse(decrypt(dek, packed)));
 
+// Binary variants for media blobs — returns/accepts a raw Buffer (iv|tag|ciphertext).
+export function encryptBuffer(key, buf) {
+  const iv = crypto.randomBytes(12);
+  const c = crypto.createCipheriv('aes-256-gcm', key, iv);
+  const ct = Buffer.concat([c.update(buf), c.final()]);
+  return Buffer.concat([iv, c.getAuthTag(), ct]);
+}
+export function decryptBuffer(key, packed) {
+  const iv = packed.subarray(0, 12);
+  const tag = packed.subarray(12, 28);
+  const ct = packed.subarray(28);
+  const d = crypto.createDecipheriv('aes-256-gcm', key, iv);
+  d.setAuthTag(tag);
+  return Buffer.concat([d.update(ct), d.final()]);
+}
+
 // ---- recovery key (160-bit, base32, grouped) ----
 const B32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 function base32(buf) {
