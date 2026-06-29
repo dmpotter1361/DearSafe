@@ -1,9 +1,14 @@
-/* layout: entry list + editor */
+/* layout: entry list + editor (+ context rail on wide desktops) */
 .today {
   display: grid;
   grid-template-columns: 210px 1fr;
   gap: 16px;
   align-items: start;
+}
+/* wide desktop: add a right-hand context rail (stats + on this day) */
+@media (min-width: 1320px) {
+  .today { grid-template-columns: 210px 1fr 290px; }
+  .context-rail { display: flex; }
 }
 .entry-list {
   display: flex;

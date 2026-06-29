@@ -1,0 +1,74 @@
+.context-rail {
+  display: none; /* shown only on wide desktops via the 3-column grid in Today.css */
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 78px;
+}
+
+.rail-card {
+  padding: 16px 18px;
+}
+.rail-title {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.rail-sub {
+  font-size: 12px;
+  margin: -4px 0 10px;
+}
+
+.rail-stats {
+  display: flex;
+  gap: 10px;
+}
+.rail-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 4px;
+  background: var(--surface-2);
+  border-radius: var(--r-sm);
+}
+.rail-num {
+  font-size: 22px;
+  font-weight: 700;
+  color: #a07cc0;
+  line-height: 1;
+}
+.rail-lbl { font-size: 10.5px; font-weight: 600; }
+
+.rail-otd {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rail-otd-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+  background: var(--surface-2);
+  border-radius: var(--r-sm);
+  padding: 9px 11px;
+  font-family: inherit;
+  color: var(--ink);
+}
+.rail-otd-mood { font-size: 18px; }
+.rail-otd-text { display: flex; flex-direction: column; overflow: hidden; }
+.rail-otd-text b {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+.rail-otd-text small { font-size: 11px; }
+.rail-empty { font-size: 12.5px; line-height: 1.5; margin: 0; }
+
+/* The rail only appears on wide desktops; hidden by default (see Today.css grid). */

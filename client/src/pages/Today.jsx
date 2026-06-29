@@ -4,6 +4,7 @@ import { api } from '../api';
 import RichEditor from '../components/RichEditor';
 import ThemePicker from '../components/ThemePicker';
 import PaperPicker from '../components/PaperPicker';
+import ContextRail from '../components/ContextRail';
 import { EventContext } from '../components/CalendarFeed';
 import { isDarkTheme, themeById } from '../themes';
 import { compressImage } from '../lib/image';
@@ -172,6 +173,8 @@ export default function Today() {
           <button className="trash-btn muted" onClick={removeEntry} title="Move to trash">🗑️</button>
         </div>
       </div>
+
+      <ContextRail current={current} entries={entries} onOpen={(e) => setCurrent(e)} />
     </div>
   );
 }

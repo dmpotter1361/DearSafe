@@ -5,6 +5,14 @@ This project follows [Semantic Versioning](https://semver.org) (`MAJOR.MINOR.PAT
 
 ## [Unreleased]
 
+## [0.9.0] — 2026-06-28
+
+### Added
+- **Context rail on wide desktops:** a right-hand panel (appears at ≥1320px) that puts the
+  previously-empty side space to use — a live **At a glance** card (word count, photo count,
+  est. read time) and **On this day**, surfacing past entries from the same calendar date.
+  Collapses cleanly to two columns on mid screens and the mobile strip on phones.
+
 ## [0.8.0] — 2026-06-28
 
 ### Added
