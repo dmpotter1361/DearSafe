@@ -51,6 +51,14 @@ db.exec(`
     size        INTEGER NOT NULL,
     created_at  TEXT NOT NULL
   );
+
+  -- Generic settings: small per-owner values, AES-256-GCM ciphertext under the DEK
+  -- (e.g. the .ics calendar feed URL). Readable only while unlocked.
+  CREATE TABLE IF NOT EXISTS settings (
+    key         TEXT PRIMARY KEY,
+    value_enc   TEXT,
+    updated_at  TEXT NOT NULL
+  );
 `);
 
 export default db;

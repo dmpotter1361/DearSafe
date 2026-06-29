@@ -54,4 +54,12 @@ export const api = {
   createEntry: (data) => req('/entries', 'POST', data),
   updateEntry: (id, data) => req(`/entries/${id}`, 'PUT', data),
   deleteEntry: (id) => req(`/entries/${id}`, 'DELETE'),
+
+  // External calendar (.ics feed)
+  getCalendarFeed: () => req('/calendar/feed'),
+  setCalendarFeed: (url) => req('/calendar/feed', 'PUT', { url }),
+  clearCalendarFeed: () => req('/calendar/feed', 'DELETE'),
+  calendarEvents: (date) => req(`/calendar/events?date=${encodeURIComponent(date)}`),
+  calendarRange: (from, to) =>
+    req(`/calendar/events?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`),
 };

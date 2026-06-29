@@ -5,6 +5,18 @@ This project follows [Semantic Versioning](https://semver.org) (`MAJOR.MINOR.PAT
 
 ## [Unreleased]
 
+## [0.3.0] — 2026-06-28
+
+### Added
+- **External calendar feed (`.ics`):** paste a read-only iCal URL (Google, Apple,
+  Outlook all publish one) to see each day's events as context beside your entries.
+  No OAuth or Google Cloud setup — just one link, encrypted at rest like everything else.
+- **Editor context strip:** the day's calendar events show under the date while you write.
+- **Calendar day view:** click any day to see your entries *and* that day's external
+  events together; days with calendar events are marked with a 📅 on the month grid.
+- Dependency-free `.ics` reader supporting all-day & timed events and common recurrence
+  (daily/weekly/monthly/yearly, `INTERVAL`/`COUNT`/`UNTIL`/`BYDAY`, `EXDATE`).
+
 ## [0.2.0] — 2026-06-28
 
 ### Added

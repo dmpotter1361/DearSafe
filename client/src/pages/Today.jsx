@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { api } from '../api';
 import RichEditor from '../components/RichEditor';
+import { EventContext } from '../components/CalendarFeed';
 import { compressImage } from '../lib/image';
 import './Today.css';
 
@@ -124,6 +125,8 @@ export default function Today() {
             ))}
           </div>
         </div>
+
+        <EventContext date={current.date} />
 
         <article className="entry-card card">
           <input

@@ -28,10 +28,12 @@ import setupRoutes from './routes/setup.js';
 import authRoutes from './routes/auth.js';
 import entryRoutes from './routes/entries.js';
 import mediaRoutes from './routes/media.js';
+import calendarRoutes from './routes/calendar.js';
 app.use('/api/setup', setupRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/entries', entryRoutes);
 app.use('/api/media', mediaRoutes);
+app.use('/api/calendar', calendarRoutes);
 
 // Dev mode: auto-create the keyring (shared password) + seed sample entries.
 if (DEV) {
