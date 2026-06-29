@@ -5,6 +5,13 @@ This project follows [Semantic Versioning](https://semver.org) (`MAJOR.MINOR.PAT
 
 ## [Unreleased]
 
+## [0.6.0] — 2026-06-28
+
+### Added
+- **Font family & size in the editor:** two toolbar dropdowns — Font (Default,
+  Handwritten, Serif, Mono) and Size (S / M / L / XL) — apply to the selected text and
+  are stored inline (encrypted at rest like the rest of the entry).
+
 ## [0.5.0] — 2026-06-28
 
 ### Added

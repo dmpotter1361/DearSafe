@@ -20,6 +20,24 @@
 }
 .tool s { text-decoration: line-through; }
 
+/* font family + size dropdowns */
+.tool-select {
+  height: 30px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0 6px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  max-width: 96px;
+}
+.tool-select.size { max-width: 52px; }
+.tool-select:focus { outline: 2px solid var(--lavender); }
+
 .tool.color {
   position: relative;
   overflow: hidden;

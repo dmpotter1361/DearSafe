@@ -7,7 +7,21 @@ import { Highlight } from '@tiptap/extension-highlight';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import { CaptionedImage } from './CaptionedImage';
+import { FontStyles } from './FontStyles';
 import './RichEditor.css';
+
+const FONTS = [
+  { label: 'Default', value: '' },
+  { label: 'Handwritten', value: 'Caveat, cursive' },
+  { label: 'Serif', value: 'Georgia, "Times New Roman", serif' },
+  { label: 'Mono', value: 'ui-monospace, "Courier New", monospace' },
+];
+const SIZES = [
+  { label: 'S', value: '13px' },
+  { label: 'M', value: '' },
+  { label: 'L', value: '20px' },
+  { label: 'XL', value: '28px' },
+];
 
 const EMOJIS = [
   '😀','😄','🥰','😍','😎','🤔','😌','😢','😭','😴','🥳','😇',
@@ -62,6 +76,7 @@ export default function RichEditor({ value, onChange, placeholder, uploadImage }
       Color,
       Highlight.configure({ multicolor: true }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
+      FontStyles,
       CaptionedImage.configure({ inline: false, allowBase64: true }),
       Placeholder.configure({ placeholder: placeholder || 'Dear diary… ✨' }),
     ],
@@ -130,6 +145,32 @@ export default function RichEditor({ value, onChange, placeholder, uploadImage }
         <Btn on={() => editor.chain().focus().toggleUnderline().run()} active={editor.isActive('underline')} title="Underline"><u>U</u></Btn>
         <Btn on={() => editor.chain().focus().toggleStrike().run()} active={editor.isActive('strike')} title="Strikethrough"><s>S</s></Btn>
         <Btn on={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive('heading', { level: 2 })} title="Heading">H</Btn>
+        <select
+          className="tool-select"
+          title="Font"
+          value={editor.getAttributes('textStyle').fontFamily || ''}
+          onMouseDown={(e) => e.stopPropagation()}
+          onChange={(e) => {
+            const v = e.target.value;
+            v ? editor.chain().focus().setFontFamily(v).run()
+              : editor.chain().focus().unsetFontFamily().run();
+          }}
+        >
+          {FONTS.map((f) => <option key={f.label} value={f.value}>{f.label}</option>)}
+        </select>
+        <select
+          className="tool-select size"
+          title="Font size"
+          value={editor.getAttributes('textStyle').fontSize || ''}
+          onMouseDown={(e) => e.stopPropagation()}
+          onChange={(e) => {
+            const v = e.target.value;
+            v ? editor.chain().focus().setFontSize(v).run()
+              : editor.chain().focus().unsetFontSize().run();
+          }}
+        >
+          {SIZES.map((s) => <option key={s.label} value={s.value}>{s.label}</option>)}
+        </select>
         <label className="tool color" title="Text color">
           🎨
           <input
