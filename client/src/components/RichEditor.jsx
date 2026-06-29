@@ -12,7 +12,19 @@ import './RichEditor.css';
 
 const FONTS = [
   { label: 'Default', value: '' },
-  { label: 'Handwritten', value: 'Caveat, cursive' },
+  // Handwriting
+  { label: 'Caveat', value: 'Caveat, cursive' },
+  { label: 'Patrick Hand', value: '"Patrick Hand", cursive' },
+  { label: 'Indie Flower', value: '"Indie Flower", cursive' },
+  // Script
+  { label: 'Dancing Script', value: '"Dancing Script", cursive' },
+  { label: 'Pacifico', value: 'Pacifico, cursive' },
+  // Rounded
+  { label: 'Nunito', value: 'Nunito, sans-serif' },
+  { label: 'Comfortaa', value: 'Comfortaa, sans-serif' },
+  // Serif
+  { label: 'Lora', value: 'Lora, serif' },
+  { label: 'Playfair', value: '"Playfair Display", serif' },
   { label: 'Serif', value: 'Georgia, "Times New Roman", serif' },
   { label: 'Mono', value: 'ui-monospace, "Courier New", monospace' },
 ];

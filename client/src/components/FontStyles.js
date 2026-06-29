@@ -23,7 +23,9 @@ export const FontStyles = Extension.create({
           },
           fontFamily: {
             default: null,
-            parseHTML: (el) => el.style.fontFamily?.replace(/["']/g, '') || null,
+            // Preserve the value as-is (incl. quotes) — multi-word families like
+            // "Dancing Script" must stay quoted to match their @font-face.
+            parseHTML: (el) => el.style.fontFamily || null,
             renderHTML: (attrs) =>
               attrs.fontFamily ? { style: `font-family: ${attrs.fontFamily}` } : {},
           },

@@ -5,6 +5,21 @@ This project follows [Semantic Versioning](https://semver.org) (`MAJOR.MINOR.PAT
 
 ## [Unreleased]
 
+## [0.7.0] — 2026-06-28
+
+### Added
+- **More fonts (self-hosted):** the editor's Font dropdown now offers Caveat, Patrick Hand,
+  Indie Flower, Dancing Script, Pacifico, Nunito, Comfortaa, Lora, and Playfair Display
+  (plus Default/Serif/Mono) — handwriting, scripts, rounded, and serif styles.
+
+### Changed
+- Fonts are now **bundled and self-hosted** (via `@fontsource`) instead of loaded from the
+  Google Fonts CDN — better privacy and full offline support for the PWA.
+
+### Fixed
+- Multi-word font families (e.g. "Dancing Script") now keep their quotes through a reload
+  so they render correctly instead of falling back.
+
 ## [0.6.0] — 2026-06-28
 
 ### Added
