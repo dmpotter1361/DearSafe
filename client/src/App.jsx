@@ -2,7 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { Routes, Route, NavLink, Navigate, useNavigate } from 'react-router-dom';
 import Logo from './components/Logo';
 import ThemeToggle from './components/ThemeToggle';
+import WallpaperPicker from './components/WallpaperPicker';
 import { useTheme } from './useTheme';
+import { wallpaperById } from './wallpapers';
 import { APP_VERSION } from './version';
 import { api } from './api';
 import Lock from './pages/Lock';
@@ -11,7 +13,7 @@ import Calendar from './pages/Calendar';
 import './app.css';
 
 // Shell for in-app pages (everything except the lock screen).
-function AppFrame({ theme, toggle, dev, children }) {
+function AppFrame({ theme, toggle, dev, wallpaper, onWallpaper, children }) {
   const navigate = useNavigate();
   const lock = async () => {
     try {
@@ -36,6 +38,7 @@ function AppFrame({ theme, toggle, dev, children }) {
           </NavLink>
         </nav>
         <div className="nav-right">
+          <WallpaperPicker value={wallpaper} onChange={onWallpaper} />
           <ThemeToggle theme={theme} onToggle={toggle} />
           <button className="lock-btn" onClick={lock} title="Lock now">🔒</button>
         </div>
@@ -49,6 +52,7 @@ function AppFrame({ theme, toggle, dev, children }) {
 export default function App() {
   const { theme, toggle } = useTheme();
   const [auth, setAuth] = useState(null); // null = loading
+  const [wallpaper, setWallpaper] = useState('default');
 
   const refresh = useCallback(async () => {
     try {
@@ -63,6 +67,32 @@ export default function App() {
     refresh();
   }, [refresh]);
 
+  // Load the saved wallpaper once unlocked.
+  useEffect(() => {
+    if (!auth?.unlocked) return;
+    api.getSettings().then((s) => setWallpaper(s.wallpaper || 'default')).catch(() => {});
+  }, [auth?.unlocked]);
+
+  // Apply the wallpaper to the page background (only while unlocked).
+  useEffect(() => {
+    const b = document.body.style;
+    const wp = wallpaperById(wallpaper);
+    if (auth?.unlocked && wp.css) {
+      b.background = wp.css;
+      b.backgroundSize = wp.size || 'cover';
+      b.backgroundAttachment = 'fixed';
+    } else {
+      b.background = '';
+      b.backgroundSize = '';
+      b.backgroundAttachment = '';
+    }
+  }, [wallpaper, auth?.unlocked]);
+
+  const changeWallpaper = (id) => {
+    setWallpaper(id);
+    api.saveSettings({ wallpaper: id }).catch(() => {});
+  };
+
   if (!auth) {
     return (
       <div className="center" style={{ height: '100%' }}>
@@ -73,7 +103,13 @@ export default function App() {
 
   const frame = (el) =>
     auth.unlocked ? (
-      <AppFrame theme={theme} toggle={toggle} dev={auth.dev}>
+      <AppFrame
+        theme={theme}
+        toggle={toggle}
+        dev={auth.dev}
+        wallpaper={wallpaper}
+        onWallpaper={changeWallpaper}
+      >
         {el}
       </AppFrame>
     ) : (

@@ -15,6 +15,7 @@ function toEntry(row, dek) {
     updatedAt: row.updated_at,
     deletedAt: row.deleted_at,
     theme: row.theme,
+    paper: row.paper || 'plain',
     accent: row.accent,
     font: row.font,
     title: decField(dek, row.title_enc),
@@ -47,15 +48,15 @@ r.get('/:id', (req, res) => {
 });
 
 r.post('/', (req, res) => {
-  const { date, title, body, mood, tags, location, theme, accent, font } = req.body || {};
+  const { date, title, body, mood, tags, location, theme, paper, accent, font } = req.body || {};
   const id = randomUUID();
   const now = new Date().toISOString();
   db.prepare(
-    `INSERT INTO entries (id, entry_date, created_at, updated_at, theme, accent, font,
+    `INSERT INTO entries (id, entry_date, created_at, updated_at, theme, paper, accent, font,
        title_enc, body_enc, mood_enc, tags_enc, location_enc)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   ).run(
-    id, date || now.slice(0, 10), now, now, theme || 'plain', accent || null, font || null,
+    id, date || now.slice(0, 10), now, now, theme || 'plain', paper || 'plain', accent || null, font || null,
     encField(req.dek, title ?? ''), encField(req.dek, body ?? null),
     encField(req.dek, mood ?? null), encField(req.dek, tags || []),
     encField(req.dek, location ?? null)
@@ -66,13 +67,13 @@ r.post('/', (req, res) => {
 r.put('/:id', (req, res) => {
   const row = db.prepare('SELECT * FROM entries WHERE id = ?').get(req.params.id);
   if (!row) return res.status(404).json({ error: 'not found' });
-  const { date, title, body, mood, tags, location, theme, accent, font } = req.body || {};
+  const { date, title, body, mood, tags, location, theme, paper, accent, font } = req.body || {};
   db.prepare(
-    `UPDATE entries SET entry_date = ?, updated_at = ?, theme = ?, accent = ?, font = ?,
+    `UPDATE entries SET entry_date = ?, updated_at = ?, theme = ?, paper = ?, accent = ?, font = ?,
        title_enc = ?, body_enc = ?, mood_enc = ?, tags_enc = ?, location_enc = ? WHERE id = ?`
   ).run(
     date ?? row.entry_date, new Date().toISOString(),
-    theme ?? row.theme, accent ?? row.accent, font ?? row.font,
+    theme ?? row.theme, paper ?? row.paper, accent ?? row.accent, font ?? row.font,
     title !== undefined ? encField(req.dek, title) : row.title_enc,
     body !== undefined ? encField(req.dek, body) : row.body_enc,
     mood !== undefined ? encField(req.dek, mood) : row.mood_enc,

@@ -55,6 +55,10 @@ export const api = {
   updateEntry: (id, data) => req(`/entries/${id}`, 'PUT', data),
   deleteEntry: (id) => req(`/entries/${id}`, 'DELETE'),
 
+  // Per-owner preferences (e.g. wallpaper)
+  getSettings: () => req('/settings'),
+  saveSettings: (patch) => req('/settings', 'PUT', patch),
+
   // External calendar (.ics feed)
   getCalendarFeed: () => req('/calendar/feed'),
   setCalendarFeed: (url) => req('/calendar/feed', 'PUT', { url }),

@@ -5,11 +5,6 @@
   gap: 16px;
   align-items: start;
 }
-@media (max-width: 680px) {
-  .today { grid-template-columns: 1fr; }
-  .entry-list { flex-direction: row; overflow-x: auto; }
-}
-
 .entry-list {
   display: flex;
   flex-direction: column;
@@ -49,7 +44,37 @@
 
 .editor {
   border-radius: var(--r-lg);
-  padding: 4px;
+  padding: 8px;
+}
+
+/* the theme + paper pickers in the editor head */
+.head-pickers {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* ---- per-entry writing-surface "paper" (lined / dotted / grid) ---- */
+.entry-card.paper-lined .rich-content .ProseMirror {
+  background-image: repeating-linear-gradient(
+    to bottom, transparent 0, transparent 27px, rgba(120, 150, 190, 0.32) 27px, rgba(120, 150, 190, 0.32) 28px);
+  line-height: 28px;
+}
+.entry-card.paper-dotted .rich-content .ProseMirror {
+  background-image: radial-gradient(rgba(120, 150, 190, 0.42) 1px, transparent 1.6px);
+  background-size: 22px 22px;
+}
+.entry-card.paper-grid .rich-content .ProseMirror {
+  background-image:
+    linear-gradient(rgba(120, 150, 190, 0.26) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 150, 190, 0.26) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+/* a touch brighter on dark themes so the ruling stays visible */
+.theme-on-dark .entry-card.paper-lined .rich-content .ProseMirror {
+  background-image: repeating-linear-gradient(
+    to bottom, transparent 0, transparent 27px, rgba(200, 215, 240, 0.28) 27px, rgba(200, 215, 240, 0.28) 28px);
 }
 
 /* ---- per-entry pastel theme ----
@@ -275,3 +300,27 @@
 .empty-heart { font-size: 52px; }
 .empty-state h2 { margin: 12px 0 6px; }
 .empty-state .btn { margin-top: 18px; }
+
+/* ---- mobile: stack to one column; entry list becomes a compact horizontal
+   strip that scrolls AWAY with the page (no sticky overlap = no scroll jank) ---- */
+@media (max-width: 680px) {
+  .today {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .entry-list {
+    position: static;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 8px;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .new-btn { flex: 0 0 auto; width: auto; padding: 10px 16px; }
+  .entry-list-item { flex: 0 0 auto; min-width: 150px; max-width: 200px; }
+  .editor-head { gap: 8px; }
+  .head-pickers { justify-content: flex-start; }
+}

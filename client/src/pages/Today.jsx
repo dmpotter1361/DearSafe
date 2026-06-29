@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { api } from '../api';
 import RichEditor from '../components/RichEditor';
 import ThemePicker from '../components/ThemePicker';
+import PaperPicker from '../components/PaperPicker';
 import { EventContext } from '../components/CalendarFeed';
 import { isDarkTheme, themeById } from '../themes';
 import { compressImage } from '../lib/image';
@@ -43,7 +44,7 @@ export default function Today() {
     timer.current = setTimeout(async () => {
       await api.updateEntry(next.id, {
         date: next.date, title: next.title, body: next.body,
-        mood: next.mood, tags: next.tags, theme: next.theme,
+        mood: next.mood, tags: next.tags, theme: next.theme, paper: next.paper,
       });
       setEntries((list) => list.map((e) => (e.id === next.id ? next : e)));
       setSave('saved');
@@ -53,7 +54,7 @@ export default function Today() {
   const patch = (p) => current && scheduleSave({ ...current, ...p });
 
   const newEntry = async () => {
-    const { id } = await api.createEntry({ date: todayISO(), title: '', body: '', theme: 'plain', tags: [] });
+    const { id } = await api.createEntry({ date: todayISO(), title: '', body: '', theme: 'plain', paper: 'plain', tags: [] });
     const list = await api.listEntries();
     setEntries(list);
     setCurrent(list.find((e) => e.id === id) || null);
@@ -85,10 +86,7 @@ export default function Today() {
   }
 
   return (
-    <div
-      className={`today theme-${current.theme} ${isDarkTheme(current.theme) ? 'theme-on-dark' : ''}`}
-      style={{ background: themeById(current.theme).bg }}
-    >
+    <div className={`today theme-${current.theme} ${isDarkTheme(current.theme) ? 'theme-on-dark' : ''}`}>
       <aside className="entry-list">
         <button className="btn new-btn" onClick={newEntry}>＋ New</button>
         {entries.map((e) => (
@@ -106,18 +104,21 @@ export default function Today() {
         ))}
       </aside>
 
-      <div className="editor">
+      <div className="editor" style={{ background: themeById(current.theme).bg }}>
         <div className="editor-head">
           <div className="editor-date">
             <span className="handwritten big">{weekday(current.date)}</span>
             <small className="muted">{longDate(current.date)}</small>
           </div>
-          <ThemePicker value={current.theme} onChange={(id) => patch({ theme: id })} />
+          <div className="head-pickers">
+            <ThemePicker value={current.theme} onChange={(id) => patch({ theme: id })} />
+            <PaperPicker value={current.paper || 'plain'} onChange={(id) => patch({ paper: id })} />
+          </div>
         </div>
 
         <EventContext date={current.date} />
 
-        <article className="entry-card card">
+        <article className={`entry-card card paper-${current.paper || 'plain'}`}>
           <input
             className="entry-title"
             value={current.title || ''}

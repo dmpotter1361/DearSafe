@@ -1,0 +1,76 @@
+.paper-picker { position: relative; }
+
+.paper-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #7a6f86;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: var(--r-pill);
+  padding: 5px 10px 5px 6px;
+  box-shadow: var(--shadow-sm);
+}
+.paper-caret { font-size: 10px; opacity: 0.7; }
+
+.paper-swatch {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background-color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+.paper-swatch.sm { width: 20px; height: 20px; border-radius: 6px; }
+
+/* paper pattern previews (mirror the real editor patterns) */
+.pp-plain { background-color: #fff; }
+.pp-lined {
+  background-image: repeating-linear-gradient(
+    to bottom, transparent 0, transparent 7px, rgba(120, 150, 190, 0.5) 7px, rgba(120, 150, 190, 0.5) 8px);
+}
+.pp-dotted {
+  background-image: radial-gradient(rgba(120, 150, 190, 0.55) 1px, transparent 1.4px);
+  background-size: 7px 7px;
+}
+.pp-grid {
+  background-image:
+    linear-gradient(rgba(120, 150, 190, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 150, 190, 0.4) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+.paper-pop {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  z-index: 30;
+  width: 220px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 12px;
+  background: var(--surface);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+}
+.paper-opt {
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 2px;
+  border-radius: var(--r-sm);
+}
+.paper-opt:hover { background: var(--surface-2); }
+.paper-opt.sel .paper-swatch { outline: 2.5px solid #e89bb4; outline-offset: 1px; }
+.paper-opt-label { font-size: 10.5px; font-weight: 600; color: var(--ink-soft); }
+.paper-opt.sel .paper-opt-label { color: var(--ink); }

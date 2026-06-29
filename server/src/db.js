@@ -53,12 +53,18 @@ db.exec(`
   );
 
   -- Generic settings: small per-owner values, AES-256-GCM ciphertext under the DEK
-  -- (e.g. the .ics calendar feed URL). Readable only while unlocked.
+  -- (e.g. the .ics calendar feed URL, the app wallpaper). Readable only while unlocked.
   CREATE TABLE IF NOT EXISTS settings (
     key         TEXT PRIMARY KEY,
     value_enc   TEXT,
     updated_at  TEXT NOT NULL
   );
 `);
+
+// Lightweight migration: add the per-entry paper style (plain | lined | dotted | grid).
+const entryCols = db.prepare('PRAGMA table_info(entries)').all().map((c) => c.name);
+if (!entryCols.includes('paper')) {
+  db.exec("ALTER TABLE entries ADD COLUMN paper TEXT DEFAULT 'plain'");
+}
 
 export default db;

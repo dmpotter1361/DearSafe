@@ -5,6 +5,25 @@ This project follows [Semantic Versioning](https://semver.org) (`MAJOR.MINOR.PAT
 
 ## [Unreleased]
 
+## [0.8.0] — 2026-06-28
+
+### Added
+- **App wallpaper:** pick a page-wide background from a 🖼️ menu in the top bar — pastel
+  washes, soft patterns (dots, hearts, confetti), a rainbow, and a couple of dark/starry
+  options. Saved per owner (encrypted), distinct from the per-entry theme.
+- **Paper styles:** each entry's writing area can be **Plain, Lined, Dotted, or Grid** —
+  a small 📝 picker next to the theme picker turns the editor into notebook paper.
+
+### Changed
+- **Less desktop dead space:** the layout now uses more width on large screens (up to
+  1100–1280px) instead of a narrow centred column.
+- The per-entry theme now backs the editor area while the wallpaper shows behind the page,
+  so the two layer nicely.
+
+### Fixed
+- **Mobile scrolling:** the entry list is now a compact horizontal strip that scrolls with
+  the page instead of a sticky column that overlapped the editor (fixes janky phone scroll).
+
 ## [0.7.0] — 2026-06-28
 
 ### Added
