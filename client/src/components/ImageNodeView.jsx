@@ -1,30 +1,68 @@
+import { useRef } from 'react';
 import { NodeViewWrapper } from '@tiptap/react';
 
-// React node view for an inline photo: the image + an editable caption,
-// a drag handle (reorder), and a remove button. Read-only when not editable.
+// React node view for an inline photo: the image + editable caption, a hover
+// toolbar (reorder / align / full-width / remove) and a drag-to-resize grip.
+// Read-only when the editor isn't editable.
 export default function ImageNodeView({ node, updateAttributes, deleteNode, editor, selected }) {
-  const { src, alt, caption } = node.attrs;
+  const { src, alt, caption, width, align = 'center' } = node.attrs;
   const editable = editor.isEditable;
+  const imgRef = useRef(null);
+
+  const startResize = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const startX = e.clientX;
+    const startW = imgRef.current.getBoundingClientRect().width;
+    const maxW = imgRef.current.closest('.ProseMirror')?.getBoundingClientRect().width || 640;
+    const onMove = (ev) => {
+      const w = Math.min(Math.max(60, Math.round(startW + (ev.clientX - startX))), Math.round(maxW));
+      updateAttributes({ width: w });
+    };
+    const onUp = () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+  };
+
+  const FbBtn = ({ on, active, children, title, danger }) => (
+    <button
+      type="button"
+      className={`ds-fb-btn ${active ? 'on' : ''} ${danger ? 'danger' : ''}`}
+      contentEditable={false}
+      onMouseDown={(e) => e.preventDefault()}
+      onClick={on}
+      title={title}
+    >
+      {children}
+    </button>
+  );
 
   return (
-    <NodeViewWrapper as="figure" className={`ds-figure ${selected ? 'sel' : ''}`}>
-      <div className="ds-figure-imgwrap">
+    <NodeViewWrapper as="figure" className={`ds-figure ds-align-${align} ${selected ? 'sel' : ''}`}>
+      <div className="ds-figure-imgwrap" style={width ? { width: `${width}px` } : undefined}>
         {editable && (
-          <span className="ds-figure-handle" contentEditable={false} data-drag-handle title="Drag to reorder">⠿</span>
+          <div className="ds-figure-bar" contentEditable={false}>
+            <span className="ds-fb-btn grab" data-drag-handle title="Drag to reorder">⠿</span>
+            <span className="ds-fb-sep" />
+            <FbBtn active={align === 'left'} on={() => updateAttributes({ align: 'left' })} title="Align left">⇤</FbBtn>
+            <FbBtn active={align === 'center'} on={() => updateAttributes({ align: 'center' })} title="Center">▢</FbBtn>
+            <FbBtn active={align === 'right'} on={() => updateAttributes({ align: 'right' })} title="Align right">⇥</FbBtn>
+            <span className="ds-fb-sep" />
+            <FbBtn on={() => updateAttributes({ width: null })} title="Full width">⤢</FbBtn>
+            <FbBtn danger on={() => deleteNode()} title="Remove photo">✕</FbBtn>
+          </div>
         )}
-        <img src={src} alt={alt || caption || ''} draggable={false} />
-        {editable && (
-          <button
-            type="button"
-            className="ds-figure-del"
-            contentEditable={false}
-            onMouseDown={(e) => e.preventDefault()}
-            onClick={() => deleteNode()}
-            title="Remove photo"
-          >
-            ✕
-          </button>
-        )}
+        <img
+          ref={imgRef}
+          src={src}
+          alt={alt || caption || ''}
+          draggable={false}
+          style={width ? { width: '100%' } : undefined}
+        />
+        {editable && <span className="ds-figure-resize" onPointerDown={startResize} title="Drag to resize" />}
       </div>
       {editable ? (
         <input

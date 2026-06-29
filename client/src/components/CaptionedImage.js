@@ -19,6 +19,21 @@ export const CaptionedImage = Image.extend({
         renderHTML: () => ({}),
         parseHTML: () => undefined,
       },
+      // Display width in px (null = full/natural). Rendered as the img width attr.
+      width: {
+        default: null,
+        parseHTML: (el) => {
+          const w = el.getAttribute('width');
+          return w ? parseInt(w, 10) : null;
+        },
+        renderHTML: (attrs) => (attrs.width ? { width: attrs.width } : {}),
+      },
+      // Horizontal placement: center (block) | left | right (float, text wraps).
+      align: {
+        default: 'center',
+        parseHTML: () => undefined, // set from the <figure> in getAttrs below
+        renderHTML: () => ({}), // rendered on the <figure>, not the <img>
+      },
     };
   },
 
@@ -30,11 +45,14 @@ export const CaptionedImage = Image.extend({
           const img = el.querySelector('img');
           if (!img) return false;
           const cap = el.querySelector('figcaption');
+          const w = img.getAttribute('width');
           return {
             src: img.getAttribute('src'),
             alt: img.getAttribute('alt'),
             title: img.getAttribute('title'),
             caption: cap ? cap.textContent : '',
+            width: w ? parseInt(w, 10) : null,
+            align: el.getAttribute('data-align') || 'center',
           };
         },
       },
@@ -43,8 +61,13 @@ export const CaptionedImage = Image.extend({
   },
 
   renderHTML({ node, HTMLAttributes }) {
-    const caption = node.attrs.caption || '';
-    return ['figure', { class: 'ds-figure' }, ['img', HTMLAttributes], ['figcaption', {}, caption]];
+    const { caption, align } = node.attrs;
+    return [
+      'figure',
+      { class: `ds-figure ds-align-${align || 'center'}`, 'data-align': align || 'center' },
+      ['img', HTMLAttributes],
+      ['figcaption', {}, caption || ''],
+    ];
   },
 
   addNodeView() {

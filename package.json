@@ -1,6 +1,6 @@
 {
   "name": "dearsafe",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "private": true,
   "description": "A private, encrypted, pastel journaling app for your life and your projects.",
   "license": "GPL-3.0",

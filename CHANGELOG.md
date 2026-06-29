@@ -5,6 +5,14 @@ This project follows [Semantic Versioning](https://semver.org) (`MAJOR.MINOR.PAT
 
 ## [Unreleased]
 
+## [0.10.0] — 2026-06-28
+
+### Added
+- **Resize & reposition photos:** hover a photo for a toolbar to align it **left / center /
+  right** (left/right float so text wraps around the image), make it **full width**, reorder,
+  or remove — plus a corner **grip to drag-resize**. Size and placement are saved with the
+  entry and survive reloads.
+
 ## [0.9.0] — 2026-06-28
 
 ### Added
