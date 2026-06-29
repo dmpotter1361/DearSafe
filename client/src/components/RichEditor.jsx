@@ -5,8 +5,8 @@ import { TextStyle } from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
 import { Highlight } from '@tiptap/extension-highlight';
 import { TextAlign } from '@tiptap/extension-text-align';
-import { Image } from '@tiptap/extension-image';
 import { Placeholder } from '@tiptap/extension-placeholder';
+import { CaptionedImage } from './CaptionedImage';
 import './RichEditor.css';
 
 const EMOJIS = [
@@ -47,6 +47,14 @@ export default function RichEditor({ value, onChange, placeholder, uploadImage }
   const emojiRef = useRef(null);
   const fileRef = useRef(null);
 
+  // Keep the latest uploader, setter, and editor in refs so the editorProps
+  // handlers (created once) never close over stale values.
+  const uploadRef = useRef(uploadImage);
+  uploadRef.current = uploadImage;
+  const busyRef = useRef(setUploading);
+  busyRef.current = setUploading;
+  const editorRef = useRef(null);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -54,14 +62,35 @@ export default function RichEditor({ value, onChange, placeholder, uploadImage }
       Color,
       Highlight.configure({ multicolor: true }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      Image.configure({ inline: false, allowBase64: true }),
+      CaptionedImage.configure({ inline: false, allowBase64: true }),
       Placeholder.configure({ placeholder: placeholder || 'Dear diary… ✨' }),
     ],
     content: value || '',
     onUpdate: ({ editor }) => onChange?.(editor.getHTML()),
+    editorProps: {
+      // Drop image files anywhere in the entry → upload + insert at the drop point.
+      handleDrop(view, event, _slice, moved) {
+        if (moved) return false; // internal node move (reorder) — let ProseMirror handle it
+        const imgs = imageFiles(event.dataTransfer?.files);
+        if (!imgs.length || !uploadRef.current) return false;
+        event.preventDefault();
+        const pos = view.posAtCoords({ left: event.clientX, top: event.clientY })?.pos ?? null;
+        uploadAndInsert(editorRef.current, imgs, pos, uploadRef, busyRef);
+        return true;
+      },
+      // Paste an image from the clipboard → upload + insert at the cursor.
+      handlePaste(view, event) {
+        const imgs = imageFiles(event.clipboardData?.files);
+        if (!imgs.length || !uploadRef.current) return false;
+        event.preventDefault();
+        uploadAndInsert(editorRef.current, imgs, null, uploadRef, busyRef);
+        return true;
+      },
+    },
   });
 
   useEditorTick(editor);
+  editorRef.current = editor;
 
   // close emoji popover on outside click
   useEffect(() => {
@@ -87,18 +116,10 @@ export default function RichEditor({ value, onChange, placeholder, uploadImage }
   };
 
   const onPickFile = async (e) => {
-    const file = e.target.files?.[0];
+    const imgs = imageFiles(e.target.files);
     e.target.value = '';
-    if (!file || !uploadImage) return;
-    setUploading(true);
-    try {
-      const url = await uploadImage(file);
-      insertImage(editor, url);
-    } catch (err) {
-      alert('Photo upload failed: ' + (err.message || 'try again'));
-    } finally {
-      setUploading(false);
-    }
+    if (!imgs.length || !uploadImage) return;
+    await uploadAndInsert(editor, imgs, null, uploadRef, busyRef);
   };
 
   return (
@@ -134,11 +155,11 @@ export default function RichEditor({ value, onChange, placeholder, uploadImage }
           )}
         </div>
         {uploadImage && (
-          <Btn on={() => fileRef.current?.click()} active={uploading} title="Add photo">
+          <Btn on={() => fileRef.current?.click()} active={uploading} title="Add photo(s)">
             {uploading ? '⏳' : '📷'}
           </Btn>
         )}
-        <input ref={fileRef} type="file" accept="image/*" hidden onChange={onPickFile} />
+        <input ref={fileRef} type="file" accept="image/*" multiple hidden onChange={onPickFile} />
       </div>
       <EditorContent editor={editor} className="rich-content" />
     </div>
@@ -148,4 +169,30 @@ export default function RichEditor({ value, onChange, placeholder, uploadImage }
 // Imperative helper so the parent can insert an uploaded image.
 export function insertImage(editor, src) {
   editor?.chain().focus().setImage({ src }).run();
+}
+
+const imageFiles = (fileList) => [...(fileList || [])].filter((f) => /^image\//.test(f.type));
+
+// Upload all images (sequentially, so order is preserved), then insert them as
+// image nodes in one ordered insertContent at the cursor (or at `pos` for a drop).
+async function uploadAndInsert(editor, files, pos, uploadRef, busyRef) {
+  if (!editor) return;
+  busyRef.current(true);
+  try {
+    const urls = [];
+    for (const file of files) {
+      try {
+        urls.push(await uploadRef.current(file));
+      } catch (err) {
+        alert('Photo upload failed: ' + (err.message || 'try again'));
+      }
+    }
+    if (!urls.length) return;
+    const nodes = urls.map((src) => ({ type: 'image', attrs: { src } }));
+    const chain = editor.chain().focus();
+    if (pos != null) chain.setTextSelection(pos);
+    chain.insertContent(nodes).run();
+  } finally {
+    busyRef.current(false);
+  }
 }

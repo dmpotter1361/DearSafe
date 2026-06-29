@@ -96,6 +96,83 @@
   padding: 0 2px;
 }
 
+/* captioned inline photos (figure + figcaption) */
+.rich-content .ProseMirror figure.ds-figure {
+  margin: 14px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.rich-content .ProseMirror figure.ds-figure img {
+  margin: 0; /* figure owns the spacing */
+}
+.ds-figure-imgwrap {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+.ds-figure.sel img {
+  outline: 3px solid var(--lavender);
+  outline-offset: 1px;
+}
+.ds-figure-handle {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #8a8096;
+  font-size: 14px;
+  cursor: grab;
+  opacity: 0;
+  transition: opacity 0.15s var(--ease);
+  box-shadow: var(--shadow-sm);
+}
+.ds-figure-handle:active { cursor: grabbing; }
+.ds-figure-del {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: #c47a93;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s var(--ease);
+  box-shadow: var(--shadow-sm);
+}
+.ds-figure-imgwrap:hover .ds-figure-handle,
+.ds-figure-imgwrap:hover .ds-figure-del { opacity: 1; }
+.ds-figure-cap {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-soft);
+  text-align: center;
+  width: 100%;
+  padding: 2px 4px;
+}
+.ds-figure-cap::placeholder { color: var(--ink-soft); opacity: 0.55; }
+.ds-figure-cap-static {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
 /* placeholder */
 .rich-content .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);

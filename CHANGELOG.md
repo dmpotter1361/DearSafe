@@ -5,7 +5,18 @@ This project follows [Semantic Versioning](https://semver.org) (`MAJOR.MINOR.PAT
 
 ## [Unreleased]
 
-## [0.3.0] — 2026-06-28
+## [0.4.0] — 2026-06-28
+
+### Added
+- **Multi-photo storyboard editor:** add several photos to an entry at once, each as a
+  captioned figure. Type a caption under any photo; **drag the handle to reorder**; remove
+  with the ✕ button. Photos stay encrypted at rest (client-side downscale + EXIF strip).
+- **Drag-and-drop & paste:** drop image files anywhere in an entry, or paste from the
+  clipboard — they upload and insert at that spot.
+
+### Changed
+- Inline images now serialize as `<figure><img><figcaption>` (captioned). Legacy bare
+  `<img>` entries (v0.2–0.3) still load fine, with an empty caption.
 
 ### Added
 - **External calendar feed (`.ics`):** paste a read-only iCal URL (Google, Apple,
