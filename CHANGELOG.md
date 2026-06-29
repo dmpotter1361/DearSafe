@@ -5,7 +5,17 @@ This project follows [Semantic Versioning](https://semver.org) (`MAJOR.MINOR.PAT
 
 ## [Unreleased]
 
-## [0.4.0] — 2026-06-28
+## [0.5.0] — 2026-06-28
+
+### Added
+- **Theme picker + more themes:** the per-entry background is now a 🎨 popover of
+  **12 curated pastel themes** (Plain, Beach, Sky, Rain, Meadow, Forest, Floral, Sunset,
+  Cozy, Sunny, Night, Starry) instead of a flat 4-chip row. Dark themes (Night, Starry)
+  render a cozy translucent-dark card with light, readable text.
+
+### Changed
+- Themes are defined once in `client/src/themes.js` (shared by the editor and the calendar
+  dots), so adding a theme is a one-line change.
 
 ### Added
 - **Multi-photo storyboard editor:** add several photos to an entry at once, each as a

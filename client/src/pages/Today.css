@@ -52,26 +52,31 @@
   padding: 4px;
 }
 
-/* ---- per-entry pastel theme backgrounds ---- */
-.theme-beach {
-  background: linear-gradient(180deg, #bfe3f5 0%, #d8eef7 36%, #f6ead0 66%, #f3e1c4 100%);
+/* ---- per-entry pastel theme ----
+   The background gradient is applied inline from src/themes.js (single source).
+   Dark themes (night, starry) add `theme-on-dark`: a cozy translucent-dark card
+   with light text, keeping contrast readable on the dark backdrop. */
+.theme-on-dark .entry-card {
+  background: rgba(42, 36, 56, 0.74);
+  border-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(3px);
 }
-.theme-rain {
-  background: linear-gradient(180deg, #cdd6e8 0%, #dfe6f1 50%, #eef1f6 100%);
-}
-.theme-plain {
-  background: linear-gradient(180deg, #fdeef4 0%, #f4ecfb 100%);
-}
-.theme-night {
-  background: linear-gradient(180deg, #2f2a44 0%, #3a3357 60%, #463a63 100%);
-}
-.theme-night .editor-date small,
-.theme-night .muted {
+.theme-on-dark .editor-date small,
+.theme-on-dark .muted {
   color: #cdbfe0;
 }
-.theme-night .entry-title,
-.theme-night .entry-text {
+.theme-on-dark .editor-date .big,
+.theme-on-dark .entry-title {
+  color: #e7d6f2;
+}
+.theme-on-dark .entry-text,
+.theme-on-dark .entry-body,
+.theme-on-dark .rich-content .ProseMirror {
   color: #ece4f5;
+}
+.theme-on-dark .ev-context {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 /* App dark mode: the entry card is dark, so its text must go light regardless of the
@@ -100,34 +105,8 @@
   line-height: 1;
   color: #4a6b86;
 }
-.theme-night .editor-date .big {
-  color: #d9b8e8;
-}
 .editor-date small {
   font-size: 12px;
-}
-
-.theme-picker {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-.chip {
-  border: 0;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 600;
-  color: #7a6f86;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: var(--r-pill);
-  padding: 6px 11px;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.12s var(--ease);
-}
-.chip.sel {
-  outline: 2px solid #e89bb4;
-  transform: translateY(-1px);
 }
 
 .toolbar {
@@ -169,7 +148,6 @@
   width: 100%;
   margin-bottom: 6px;
 }
-.theme-night .entry-title { color: #d9b8e8; }
 
 .entry-text {
   font-size: 15px;
@@ -192,7 +170,6 @@
   margin: 6px 0;
 }
 .entry-body::placeholder { color: var(--ink-soft); opacity: 0.7; }
-.theme-night .entry-body { color: #ece4f5; }
 [data-theme='dark'] .entry-body { color: var(--ink); }
 
 .entry-photo-wrap { margin: 14px 0 6px; }

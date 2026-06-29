@@ -71,7 +71,7 @@
   line-height: 1.7;
   color: #534d5e;
 }
-.theme-night .rich-content .ProseMirror { color: #ece4f5; }
+.theme-on-dark .rich-content .ProseMirror { color: #ece4f5; }
 [data-theme='dark'] .rich-content .ProseMirror { color: var(--ink); }
 
 .rich-content .ProseMirror p { margin: 10px 0; }
@@ -81,7 +81,7 @@
   color: #4a6b86;
   margin: 14px 0 4px;
 }
-.theme-night .rich-content .ProseMirror h2 { color: #d9b8e8; }
+.theme-on-dark .rich-content .ProseMirror h2 { color: #d9b8e8; }
 .rich-content .ProseMirror ul,
 .rich-content .ProseMirror ol { padding-left: 22px; margin: 8px 0; }
 .rich-content .ProseMirror a { color: #a07cc0; text-decoration: underline; }

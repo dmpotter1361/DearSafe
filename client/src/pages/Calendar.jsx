@@ -2,15 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api';
 import { EventList, FeedSettings } from '../components/CalendarFeed';
+import { themeDot } from '../themes';
 import './Calendar.css';
 
 const DOW = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 const VIEWS = ['Calendar', 'Timeline', 'On this day'];
-const THEME_COLOR = {
-  beach: 'var(--babyblue)', rain: 'var(--mint)', plain: 'var(--blush)',
-  night: 'var(--lavender)', default: 'var(--peach)',
-};
-const colorFor = (theme) => THEME_COLOR[theme] || THEME_COLOR.default;
+const colorFor = (theme) => themeDot(theme);
 const todayISO = () => new Date().toISOString().slice(0, 10);
 const pad = (n) => String(n).padStart(2, '0');
 const longDate = (iso) =>

@@ -2,17 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { api } from '../api';
 import RichEditor from '../components/RichEditor';
+import ThemePicker from '../components/ThemePicker';
 import { EventContext } from '../components/CalendarFeed';
+import { isDarkTheme, themeById } from '../themes';
 import { compressImage } from '../lib/image';
 import './Today.css';
 
 const MOODS = ['😐', '🙂', '😄', '🥰', '😌'];
-const THEMES = [
-  { id: 'beach', label: '🏖️ Beach' },
-  { id: 'rain', label: '☔ Rain' },
-  { id: 'plain', label: '🌸 Plain' },
-  { id: 'night', label: '🌙 Night' },
-];
 
 const todayISO = () => new Date().toISOString().slice(0, 10);
 const weekday = (iso) =>
@@ -89,7 +85,10 @@ export default function Today() {
   }
 
   return (
-    <div className={`today theme-${current.theme}`}>
+    <div
+      className={`today theme-${current.theme} ${isDarkTheme(current.theme) ? 'theme-on-dark' : ''}`}
+      style={{ background: themeById(current.theme).bg }}
+    >
       <aside className="entry-list">
         <button className="btn new-btn" onClick={newEntry}>＋ New</button>
         {entries.map((e) => (
@@ -113,17 +112,7 @@ export default function Today() {
             <span className="handwritten big">{weekday(current.date)}</span>
             <small className="muted">{longDate(current.date)}</small>
           </div>
-          <div className="theme-picker">
-            {THEMES.map((t) => (
-              <button
-                key={t.id}
-                className={`chip ${current.theme === t.id ? 'sel' : ''}`}
-                onClick={() => patch({ theme: t.id })}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
+          <ThemePicker value={current.theme} onChange={(id) => patch({ theme: id })} />
         </div>
 
         <EventContext date={current.date} />
